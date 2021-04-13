@@ -1,0 +1,14 @@
+{
+    "oauth_demo_db": {
+        "database": "oauth_demo",
+        "settings": "charset=utf8mb4&parseTime=True&loc=Local",
+        "username": "root",
+        "password": "",
+        "default_host": "127.0.0.1:3306"
+    },
+    "oauth_demo_cache": {
+        "addr": "127.0.0.1:6379",
+        "password": "",
+        "db_idx": 6
+    }
+}

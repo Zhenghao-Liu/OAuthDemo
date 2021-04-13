@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>OAuth_demo</title>
+    <script type="text/javascript">
+        function main(url) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            function getQueryVariable(variable) {
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                }
+                return "";
+            }
+            var scope = "", separator = ",";
+            var objects = document.getElementsByTagName("input");
+            for (var i = 0; i < objects.length; i++) {
+                if (objects[i].checked == true) {
+                    scope += objects[i].value + separator;
+                }
+            }
+            scope = scope.substring(0, scope.length - 1);
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', url, false);
+            // httpRequest.setRequestHeader("Content-Type", "multipart/form-data");
+            httpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
+            httpRequest.setRequestHeader("app_id", getQueryVariable("app_id"));
+            httpRequest.setRequestHeader("account", document.getElementsByName('user')[0].value);
+            httpRequest.setRequestHeader("password", document.getElementsByName("password")[0].value);
+            httpRequest.setRequestHeader("response_type", "code");
+            httpRequest.setRequestHeader("callback", getQueryVariable("redirect_url"));
+            httpRequest.setRequestHeader("scope", scope);
+            httpRequest.setRequestHeader("state", getQueryVariable("state"));
+            function handleResponse(e) {
+                if (e.target.readyState == XMLHttpRequest.DONE) {
+                    document.body.innerHTML = e.target.responseText;
+                }
+            }
+            httpRequest.onreadystatechange = handleResponse;
+            httpRequest.send();
+        }
+    </script>
+</head>
+
+<body>
+<br />
+<br />
+<div align="center"><span style="font-size: xx-large; "> <strong>OAuth授权服务器</strong></span></div>
+<br />
+<div class="login">
+    <div align="center"><input type="text" name="user" placeholder="用户名" required="required"></div><br />
+    <div align="center"><input type="text" name="password" placeholder="登录密码" required="required"></div>
+    <br />
+    <p>
+    <div align="center"><input name="resource1" type="checkbox" value="resource1" />资源1 </div>
+    <div align="center"><input name="resource2" type="checkbox" value="resource2" />资源2 </div>
+    <div align="center"><input name="resource3" type="checkbox" value="resource3" />资源3 </div>
+    </p>
+    <br />
+    <div align="center"><button type="submit" onClick="main({{.url}})">登陆并授权</button></div>
+</div>
+
+
+</body>
+
+</html>

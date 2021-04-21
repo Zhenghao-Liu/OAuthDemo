@@ -33,7 +33,7 @@
             httpRequest.setRequestHeader("account", document.getElementsByName('user')[0].value);
             httpRequest.setRequestHeader("password", document.getElementsByName("password")[0].value);
             httpRequest.setRequestHeader("response_type", "code");
-            httpRequest.setRequestHeader("callback", getQueryVariable("redirect_url"));
+            httpRequest.setRequestHeader("callback", getQueryVariable("callback"));
             httpRequest.setRequestHeader("scope", scope);
             httpRequest.setRequestHeader("state", getQueryVariable("state"));
             function handleResponse(e) {
